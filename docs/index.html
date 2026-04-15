@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TT ShadUni Skill — AI Development Skill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #ffffff; --fg: #0a0a0a; --card: #ffffff; --card-fg: #0a0a0a;
+      --muted: #f5f5f5; --muted-fg: #737373; --border: #e5e5e5;
+      --primary: #171717; --primary-fg: #fafafa;
+      --accent: #f5f5f5; --accent-fg: #171717;
+      --secondary: #f5f5f5; --secondary-fg: #171717;
+      --radius: 8px; --ring: #a3a3a3;
+      --code-bg: #f1f5f9; --code-fg: #334155;
+    }
+    .dark {
+      --bg: #0a0a0a; --fg: #fafafa; --card: #141414; --card-fg: #fafafa;
+      --muted: #1c1c1c; --muted-fg: #a3a3a3; --border: #262626;
+      --primary: #fafafa; --primary-fg: #0a0a0a;
+      --accent: #262626; --accent-fg: #fafafa;
+      --secondary: #262626; --secondary-fg: #fafafa;
+      --ring: #525252;
+      --code-bg: #1e293b; --code-fg: #e2e8f0;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    [v-cloak] { display: none !important; }
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg); color: var(--fg);
+      line-height: 1.6; transition: background .4s, color .4s;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    code { font-family: 'JetBrains Mono', 'SF Mono', monospace; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    /* Nav */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      background: rgba(255,255,255,.85); border-bottom: 1px solid var(--border);
+      transition: background .4s; height: 56px;
+      display: flex; align-items: center; padding: 0 24px;
+    }
+    .dark .nav { background: rgba(10,10,10,.85); }
+    .nav-brand {
+      font-size: 16px; font-weight: 700; letter-spacing: -.5px;
+      display: flex; align-items: center; gap: 8px; margin-right: auto;
+    }
+    .nav-brand__logo {
+      width: 28px; height: 28px; display: inline-flex;
+      align-items: center; justify-content: center;
+      background: var(--fg); color: var(--bg);
+      font-size: 11px; font-weight: 800; border-radius: 7px;
+      letter-spacing: -.5px; flex-shrink: 0;
+    }
+    .nav-links { display: flex; align-items: center; gap: 16px; }
+    .nav-link {
+      font-size: 14px; color: var(--muted-fg); cursor: pointer;
+      transition: color .2s; font-weight: 500;
+    }
+    .nav-link:hover { color: var(--fg); }
+    .nav-btn {
+      width: 32px; height: 32px; display: flex;
+      align-items: center; justify-content: center;
+      border-radius: 6px; border: 1px solid var(--border);
+      cursor: pointer; background: var(--bg); color: var(--fg);
+      transition: all .2s; font-size: 14px;
+    }
+    .nav-btn:hover { background: var(--accent); }
+
+    /* Hero */
+    .hero { padding: 140px 0 80px; text-align: center; position: relative; overflow: hidden; }
+    .hero-glow {
+      position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 600px;
+      background: radial-gradient(ellipse, rgba(99,102,241,.08), transparent 70%);
+      pointer-events: none;
+    }
+    .dark .hero-glow { background: radial-gradient(ellipse, rgba(99,102,241,.12), transparent 70%); }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px; border: 1px solid var(--border);
+      border-radius: 9999px; font-size: 12px; font-weight: 500;
+      color: var(--muted-fg); margin-bottom: 24px;
+      animation: fadeInUp .6s ease both;
+    }
+    .hero-badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #22c55e; animation: pulse 2s infinite;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 60px); font-weight: 800;
+      letter-spacing: -2px; line-height: 1.08; margin-bottom: 20px;
+      animation: fadeInUp .6s ease .1s both;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--muted-fg), var(--fg));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-sub {
+      font-size: 17px; color: var(--muted-fg); max-width: 580px;
+      margin: 0 auto 36px; line-height: 1.7;
+      animation: fadeInUp .6s ease .2s both;
+    }
+    .hero-actions {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+      animation: fadeInUp .6s ease .3s both;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px; border-radius: var(--radius);
+      font-size: 14px; font-weight: 500; cursor: pointer;
+      border: none; transition: all .2s; font-family: inherit;
+    }
+    .btn:hover { opacity: .85; transform: translateY(-1px); }
+    .btn-primary { background: var(--primary); color: var(--primary-fg); box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+    .btn-outline { background: var(--bg); color: var(--fg); border: 1px solid var(--border); }
+
+    /* Modes */
+    .modes { padding: 80px 0; border-top: 1px solid var(--border); }
+    .modes-header { text-align: center; margin-bottom: 48px; }
+    .modes-header h2 { font-size: 28px; font-weight: 700; letter-spacing: -.5px; margin-bottom: 8px; }
+    .modes-header p { color: var(--muted-fg); font-size: 15px; }
+    .modes-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+      background: var(--border); border: 1px solid var(--border);
+      border-radius: calc(var(--radius) + 4px); overflow: hidden;
+    }
+    .mode-card {
+      padding: 32px; background: var(--bg); transition: background .3s; cursor: default;
+    }
+    .mode-card:hover { background: var(--accent); }
+    .mode-icon {
+      width: 40px; height: 40px; border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      background: var(--muted); margin-bottom: 16px;
+    }
+    .mode-icon svg {
+      width: 20px; height: 20px; color: var(--fg);
+      stroke: currentColor; fill: none; stroke-width: 2;
+      stroke-linecap: round; stroke-linejoin: round;
+    }
+    .mode-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+    .mode-card p { font-size: 13px; color: var(--muted-fg); line-height: 1.6; }
+    .mode-signals {
+      display: flex; flex-wrap: wrap; gap: 4px; margin-top: 12px;
+    }
+    .mode-signal {
+      display: inline-block; padding: 2px 8px;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      background: var(--muted); border-radius: 4px;
+      color: var(--muted-fg);
+    }
+
+    /* Knowledge */
+    .knowledge { padding: 80px 0; border-top: 1px solid var(--border); }
+    .knowledge-header { text-align: center; margin-bottom: 48px; }
+    .knowledge-header h2 { font-size: 28px; font-weight: 700; letter-spacing: -.5px; margin-bottom: 8px; }
+    .knowledge-header p { color: var(--muted-fg); font-size: 15px; }
+    .knowledge-layers {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    }
+    .layer-card {
+      padding: 28px; border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--bg); transition: border-color .2s;
+    }
+    .layer-card:hover { border-color: var(--ring); }
+    .layer-tag {
+      display: inline-block; padding: 2px 10px; border-radius: 4px;
+      font-size: 11px; font-weight: 600; letter-spacing: .5px;
+      margin-bottom: 12px;
+    }
+    .layer-tag--l0 { background: #dcfce7; color: #166534; }
+    .dark .layer-tag--l0 { background: #14532d; color: #86efac; }
+    .layer-tag--l1 { background: #dbeafe; color: #1e40af; }
+    .dark .layer-tag--l1 { background: #1e3a5f; color: #93c5fd; }
+    .layer-tag--l2 { background: #fef3c7; color: #92400e; }
+    .dark .layer-tag--l2 { background: #78350f; color: #fcd34d; }
+    .layer-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+    .layer-card p { font-size: 13px; color: var(--muted-fg); line-height: 1.6; }
+    .layer-files {
+      margin-top: 12px; display: flex; flex-direction: column; gap: 3px;
+    }
+    .layer-file {
+      font-family: 'JetBrains Mono', monospace; font-size: 12px;
+      color: var(--muted-fg); padding: 2px 0;
+    }
+
+    /* Stats */
+    .stats { padding: 60px 0; border-top: 1px solid var(--border); }
+    .stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 32px; text-align: center; }
+    .stat-num {
+      font-size: 36px; font-weight: 800; letter-spacing: -1px;
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-label { font-size: 13px; color: var(--muted-fg); margin-top: 4px; }
+
+    /* Structure */
+    .structure { padding: 80px 0; border-top: 1px solid var(--border); }
+    .structure-header { text-align: center; margin-bottom: 48px; }
+    .structure-header h2 { font-size: 28px; font-weight: 700; letter-spacing: -.5px; margin-bottom: 8px; }
+    .structure-header p { color: var(--muted-fg); font-size: 15px; }
+    .tree-block {
+      max-width: 600px; margin: 0 auto;
+      padding: 24px 28px; border-radius: var(--radius);
+      background: var(--code-bg); color: var(--code-fg);
+      font-family: 'JetBrains Mono', monospace; font-size: 13px;
+      line-height: 1.8; border: 1px solid var(--border);
+      overflow-x: auto; white-space: pre;
+    }
+
+    /* CTA */
+    .cta { padding: 80px 0; text-align: center; border-top: 1px solid var(--border); }
+    .cta h2 { font-size: 28px; font-weight: 700; letter-spacing: -.5px; margin-bottom: 12px; }
+    .cta p { color: var(--muted-fg); margin-bottom: 28px; font-size: 15px; max-width: 520px; margin-left: auto; margin-right: auto; }
+    .cta-steps {
+      display: flex; gap: 24px; justify-content: center; flex-wrap: wrap;
+      margin-top: 32px;
+    }
+    .cta-step {
+      padding: 20px 24px; border: 1px solid var(--border); border-radius: var(--radius);
+      text-align: left; max-width: 280px; flex: 1; min-width: 220px;
+      transition: border-color .2s; cursor: default;
+    }
+    .cta-step:hover { border-color: var(--ring); }
+    .cta-step-num {
+      font-size: 11px; font-weight: 600; color: var(--muted-fg);
+      letter-spacing: .5px; margin-bottom: 8px;
+    }
+    .cta-step h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .cta-step p { font-size: 12px; color: var(--muted-fg); line-height: 1.5; }
+    .cta-step code {
+      display: block; margin-top: 8px; padding: 6px 10px;
+      background: var(--code-bg); color: var(--code-fg);
+      border-radius: 4px; font-size: 11px; word-break: break-all;
+    }
+
+    /* Footer */
+    .footer { padding: 32px 0; border-top: 1px solid var(--border); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; }
+    .footer p { font-size: 13px; color: var(--muted-fg); }
+    .footer-links { display: flex; gap: 16px; }
+    .footer-links a { font-size: 13px; color: var(--muted-fg); transition: color .2s; cursor: pointer; }
+    .footer-links a:hover { color: var(--fg); }
+
+    /* Animations */
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .5; } }
+    .fade-in { animation: fadeInUp .5s ease both; }
+    .fade-in-d0 { animation-delay: 0s; }
+    .fade-in-d1 { animation-delay: .1s; }
+    .fade-in-d2 { animation-delay: .2s; }
+    @media (prefers-reduced-motion: reduce) { * { animation-duration: 0s !important; transition-duration: 0s !important; } }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .modes-grid { grid-template-columns: 1fr; }
+      .knowledge-layers { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    }
+
+    /* Scrollbar */
+    * { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+    *::-webkit-scrollbar { width: 6px; height: 6px; }
+    *::-webkit-scrollbar-track { background: transparent; }
+    *::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    *::-webkit-scrollbar-thumb:hover { background: var(--muted-fg); }
+  </style>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+</head>
+<body>
+<div id="app" v-cloak>
+  <nav class="nav">
+    <a class="nav-brand" href="#">
+      <span class="nav-brand__logo">SK</span>
+      TT ShadUni Skill
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="https://github.com/shetengteng/tt-shaduni" target="_blank">TT ShadUni</a>
+      <a class="nav-link" href="https://github.com/shetengteng/tt-shaduni-skill" target="_blank">GitHub</a>
+      <button class="nav-btn" @click="toggleLang" :title="t.switchLang">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.5 10L22.9 21H20.745L19.544 18H15.454L14.255 21H12.101L16.5 10H18.5ZM10 2V4H16V6L14.0322 6.0006C13.2425 8.36616 11.9988 10.5057 10.4115 12.301C11.1344 12.9457 11.917 13.5176 12.7475 14.0079L11.9969 15.8855C10.9237 15.2781 9.91944 14.5524 8.99961 13.7249C7.21403 15.332 5.10914 16.5553 2.79891 17.2734L2.26257 15.3442C4.2385 14.7203 6.04543 13.6737 7.59042 12.3021C6.46277 11.0281 5.50873 9.57985 4.76742 8.00028L7.00684 8.00037C7.57018 9.03885 8.23979 10.0033 8.99967 10.877C10.2283 9.46508 11.2205 7.81616 11.9095 6.00101L2 6V4H8V2H10ZM17.5 12.8852L16.253 16H18.745L17.5 12.8852Z"/></svg>
+      </button>
+      <button class="nav-btn" @click="toggleTheme" :title="t.toggleTheme">
+        <svg v-if="!isDark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/></svg>
+        <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="container">
+      <div class="hero-badge"><span class="hero-badge-dot"></span>Cursor &middot; Codex &middot; Claude Code</div>
+      <h1>{{ t.heroTitle1 }}<br/><span>{{ t.heroTitle2 }}</span></h1>
+      <p class="hero-sub">{{ t.heroDesc }}</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="https://github.com/shetengteng/tt-shaduni-skill" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          {{ t.getStarted }}
+        </a>
+        <a class="btn btn-outline" href="https://shetengteng.github.io/tt-shaduni/" target="_blank">
+          TT ShadUni Docs
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l10-10M7 7h10v10"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="modes">
+    <div class="container">
+      <div class="modes-header">
+        <h2>{{ t.modesTitle }}</h2>
+        <p>{{ t.modesDesc }}</p>
+      </div>
+      <div class="modes-grid">
+        <div class="mode-card fade-in" v-for="(m, i) in modes" :key="i" :class="'fade-in-d'+i">
+          <div class="mode-icon" v-html="m.icon"></div>
+          <h3>{{ m.title }}</h3>
+          <p>{{ m.desc }}</p>
+          <div class="mode-signals">
+            <span class="mode-signal" v-for="s in m.signals" :key="s">{{ s }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="knowledge">
+    <div class="container">
+      <div class="knowledge-header">
+        <h2>{{ t.layersTitle }}</h2>
+        <p>{{ t.layersDesc }}</p>
+      </div>
+      <div class="knowledge-layers">
+        <div class="layer-card fade-in" v-for="(l, i) in layers" :key="i" :class="'fade-in-d'+i">
+          <span class="layer-tag" :class="'layer-tag--l'+i">{{ l.tag }}</span>
+          <h3>{{ l.title }}</h3>
+          <p>{{ l.desc }}</p>
+          <div class="layer-files">
+            <span class="layer-file" v-for="f in l.files" :key="f">{{ f }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="fade-in" v-for="(s, i) in stats" :key="i" :class="'fade-in-d'+i">
+          <div class="stat-num">{{ s.num }}</div>
+          <div class="stat-label">{{ s.label }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="structure">
+    <div class="container">
+      <div class="structure-header">
+        <h2>{{ t.structureTitle }}</h2>
+        <p>{{ t.structureDesc }}</p>
+      </div>
+      <div class="tree-block">{{ t.tree }}</div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container">
+      <h2>{{ t.ctaTitle }}</h2>
+      <p>{{ t.ctaDesc }}</p>
+      <div class="cta-steps">
+        <div class="cta-step" v-for="(step, i) in ctaSteps" :key="i">
+          <div class="cta-step-num">{{ step.num }}</div>
+          <h4>{{ step.title }}</h4>
+          <p>{{ step.desc }}</p>
+          <code v-if="step.code">{{ step.code }}</code>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <p>TT ShadUni Skill &copy; 2026. MIT License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/shetengteng/tt-shaduni-skill">GitHub</a>
+          <a href="https://github.com/shetengteng/tt-shaduni">TT ShadUni</a>
+          <a href="https://shetengteng.github.io/tt-shaduni/">Docs</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+const i18n = {
+  en: {
+    switchLang: 'Switch Language', toggleTheme: 'Toggle Theme',
+    heroTitle1: 'TT ShadUni Skill', heroTitle2: 'AI Development Intelligence',
+    heroDesc: 'An AI Agent Skill that turns tt-shaduni component library and tt-daka-mp architecture into a queryable knowledge base. Ask about components, generate full modules, or modify existing code — all with one skill.',
+    getStarted: 'Get Started',
+    modesTitle: 'Three Work Modes', modesDesc: 'Automatically detects your intent and activates the right mode.',
+    layersTitle: 'Progressive Disclosure', layersDesc: 'Load knowledge on demand to stay within the context window.',
+    structureTitle: 'File Structure', structureDesc: 'Clean separation of concerns — entry, knowledge, and templates.',
+    ctaTitle: 'Quick Start', ctaDesc: 'Add this skill to your AI coding assistant in 3 steps.',
+    tree: `skill/
+├── SKILL.md              # Cursor entry
+├── AGENTS.md             # Codex entry
+├── CLAUDE.md             # Claude Code entry
+├── knowledge/
+│   ├── 01-overview.md
+│   ├── components/       # 6 category files
+│   ├── 04-theme.md
+│   ├── 05-icons.md
+│   ├── 06-cloud-emas.md
+│   ├── 07-architecture.md
+│   ├── 08-patterns.md
+│   └── 09-faq.md
+├── templates/            # 14 reference examples
+└── scripts/
+    └── gen-component-docs.mjs`,
+  },
+  zh: {
+    switchLang: '切换语言', toggleTheme: '切换主题',
+    heroTitle1: 'TT ShadUni Skill', heroTitle2: 'AI 开发智能体',
+    heroDesc: '将 tt-shaduni 组件库与 tt-daka-mp 项目架构转化为可查询的 AI 知识库。查询组件用法、生成完整模块、修改已有代码 —— 一个 Skill 全部搞定。',
+    getStarted: '开始使用',
+    modesTitle: '三种工作模式', modesDesc: '自动识别用户意图，激活对应工作模式。',
+    layersTitle: '渐进式披露', layersDesc: '按需加载知识，确保始终在上下文窗口内高效工作。',
+    structureTitle: '文件结构', structureDesc: '入口、知识与范例清晰分离。',
+    ctaTitle: '快速开始', ctaDesc: '三步将此 Skill 添加到你的 AI 编程助手。',
+    tree: `skill/
+├── SKILL.md              # Cursor 入口
+├── AGENTS.md             # Codex 入口
+├── CLAUDE.md             # Claude Code 入口
+├── knowledge/
+│   ├── 01-overview.md
+│   ├── components/       # 6 个分类文件
+│   ├── 04-theme.md
+│   ├── 05-icons.md
+│   ├── 06-cloud-emas.md
+│   ├── 07-architecture.md
+│   ├── 08-patterns.md
+│   └── 09-faq.md
+├── templates/            # 14 个参考范例
+└── scripts/
+    └── gen-component-docs.mjs`,
+  }
+}
+
+const { createApp, ref, computed } = Vue
+
+createApp({
+  setup() {
+    const isDark = ref(false)
+    const lang = ref('en')
+    const t = computed(() => i18n[lang.value])
+
+    const modes = computed(() => [
+      {
+        title: lang.value === 'en' ? 'Query Mode' : '查询模式',
+        desc: lang.value === 'en'
+          ? 'Ask about component APIs, theme system, architecture patterns, EMAS cloud service, and more.'
+          : '查询组件 API、主题系统、架构模式、EMAS 云服务等。',
+        icon: '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>',
+        signals: lang.value === 'en'
+          ? ['how to use', 'what is', 'which props', 'tt-xxx']
+          : ['怎么用', '有哪些', '是什么', 'tt-xxx'],
+      },
+      {
+        title: lang.value === 'en' ? 'Generate Mode' : '生成模式',
+        desc: lang.value === 'en'
+          ? 'Provide module name + fields, AI infers types, selects components, generates Schema → API → Store → Page → Route.'
+          : '提供模块名+字段，AI 推断类型选组件，生成 Schema→API→Store→页面→路由。',
+        icon: '<svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
+        signals: lang.value === 'en'
+          ? ['generate', 'create', 'write', 'new module']
+          : ['生成', '创建', '帮我写', '新增模块'],
+      },
+      {
+        title: lang.value === 'en' ? 'Modify Mode' : '修改模式',
+        desc: lang.value === 'en'
+          ? 'Read existing code first, then make incremental changes — add fields, features, or fix issues.'
+          : '先读已有代码，再增量修改 —— 添加字段、功能或修复问题。',
+        icon: '<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
+        signals: lang.value === 'en'
+          ? ['add a', 'change', 'modify', 'fix']
+          : ['加一个', '改一下', '修改', '修复'],
+      },
+    ])
+
+    const layers = computed(() => [
+      {
+        tag: 'LAYER 0',
+        title: lang.value === 'en' ? 'Entry Point' : '入口层',
+        desc: lang.value === 'en'
+          ? 'SKILL.md — loaded first. Contains mode rules, code conventions, component index, and knowledge routing table.'
+          : 'SKILL.md — 首先加载。包含模式规则、代码规范、组件索引和知识路由表。',
+        files: ['SKILL.md (~60 lines)'],
+      },
+      {
+        tag: 'LAYER 1',
+        title: lang.value === 'en' ? 'Knowledge Files' : '知识层',
+        desc: lang.value === 'en'
+          ? '13 categorized Markdown files — component docs, theme, icons, EMAS, architecture, patterns, FAQ. Loaded on demand.'
+          : '13 个分类 Markdown 文件 — 组件文档、主题、图标、EMAS、架构、模式、FAQ。按需加载。',
+        files: ['knowledge/components/*.md', 'knowledge/04~09-*.md'],
+      },
+      {
+        tag: 'LAYER 2',
+        title: lang.value === 'en' ? 'Source Code' : '源码层',
+        desc: lang.value === 'en'
+          ? '14 reference templates from tt-daka-mp + direct source code reading when precise details are needed.'
+          : '14 个来自 tt-daka-mp 的参考范例 + 需要精确信息时直接读源码。',
+        files: ['templates/**/*', 'tt-shaduni/packages/**'],
+      },
+    ])
+
+    const stats = computed(() => [
+      { num: '63', label: lang.value === 'en' ? 'Components' : '个组件' },
+      { num: '13', label: lang.value === 'en' ? 'Knowledge Files' : '个知识文件' },
+      { num: '14', label: lang.value === 'en' ? 'Templates' : '个参考范例' },
+      { num: '10', label: lang.value === 'en' ? 'Architecture Patterns' : '个架构模式' },
+      { num: '3', label: lang.value === 'en' ? 'Platforms' : '个平台支持' },
+    ])
+
+    const ctaSteps = computed(() => [
+      {
+        num: 'STEP 1',
+        title: lang.value === 'en' ? 'Clone' : '克隆',
+        desc: lang.value === 'en' ? 'Clone the skill repository.' : '克隆 Skill 仓库。',
+        code: 'git clone https://github.com/shetengteng/tt-shaduni-skill.git',
+      },
+      {
+        num: 'STEP 2',
+        title: lang.value === 'en' ? 'Link' : '链接',
+        desc: lang.value === 'en'
+          ? 'Copy skill/ to your AI assistant\'s skills directory.'
+          : '将 skill/ 复制到 AI 助手的 skills 目录。',
+        code: 'cp -r skill/ ~/.cursor/skills/tt-shaduni/',
+      },
+      {
+        num: 'STEP 3',
+        title: lang.value === 'en' ? 'Use' : '使用',
+        desc: lang.value === 'en'
+          ? 'Ask your AI: "How do I use tt-calendar?" or "Generate a task module".'
+          : '问 AI："tt-calendar 怎么用？" 或 "生成一个任务管理模块"。',
+        code: null,
+      },
+    ])
+
+    function toggleTheme() {
+      isDark.value = !isDark.value
+      document.documentElement.classList.toggle('dark', isDark.value)
+    }
+    function toggleLang() {
+      lang.value = lang.value === 'en' ? 'zh' : 'en'
+    }
+
+    return { isDark, lang, t, modes, layers, stats, ctaSteps, toggleTheme, toggleLang }
+  }
+}).mount('#app')
+</script>
+</body>
+</html>
