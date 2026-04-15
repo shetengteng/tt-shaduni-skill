@@ -263,14 +263,17 @@
     }
 
     .footer { padding: 32px 0; border-top: 1px solid var(--border); }
-    .footer-inner { display: flex; justify-content: space-between; align-items: center; }
+    .footer-inner {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+    }
     .footer p { font-size: 13px; color: var(--muted-fg); }
+    .footer-right { display: flex; align-items: center; gap: 16px; }
     .footer-links { display: flex; gap: 16px; }
     .footer-links a { font-size: 13px; color: var(--muted-fg); transition: color .2s; cursor: pointer; }
     .footer-links a:hover { color: var(--fg); }
     .footer-stats {
       display: flex; align-items: center; gap: 6px;
-      justify-content: flex-end; margin-top: 12px;
       font-size: 12px; color: var(--muted-fg);
       font-variant-numeric: tabular-nums;
     }
@@ -289,7 +292,8 @@
       .knowledge-layers { grid-template-columns: 1fr; }
       .install-platforms { grid-template-columns: 1fr; }
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
+      .footer-inner { gap: 8px; }
+      .footer-right { flex-wrap: wrap; gap: 8px; }
     }
     @media (max-width: 480px) {
       .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
@@ -458,16 +462,18 @@
     <div class="container">
       <div class="footer-inner">
         <p>TT ShadUni Skill &copy; 2026. MIT License.</p>
-        <div class="footer-links">
-          <a href="https://github.com/shetengteng/tt-shaduni-skill">GitHub</a>
-          <a href="https://github.com/shetengteng/tt-shaduni">TT ShadUni</a>
-          <a href="https://shetengteng.github.io/tt-shaduni/">Docs</a>
+        <div class="footer-right">
+          <div class="footer-links">
+            <a href="https://github.com/shetengteng/tt-shaduni-skill">GitHub</a>
+            <a href="https://github.com/shetengteng/tt-shaduni">TT ShadUni</a>
+            <a href="https://shetengteng.github.io/tt-shaduni/">Docs</a>
+          </div>
+          <div class="footer-stats">
+            <span id="busuanzi_container_site_pv">Page Views <span id="busuanzi_value_site_pv">-</span></span>
+            <span class="footer-stats-sep">&middot;</span>
+            <span id="busuanzi_container_site_uv">Unique Visitors <span id="busuanzi_value_site_uv">-</span></span>
+          </div>
         </div>
-      </div>
-      <div class="footer-stats">
-        <span id="busuanzi_container_site_pv">Page Views <span id="busuanzi_value_site_pv">-</span></span>
-        <span class="footer-stats-sep">&middot;</span>
-        <span id="busuanzi_container_site_uv">Unique Visitors <span id="busuanzi_value_site_uv">-</span></span>
       </div>
     </div>
   </footer>
