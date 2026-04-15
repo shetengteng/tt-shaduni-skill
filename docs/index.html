@@ -268,6 +268,13 @@
     .footer-links { display: flex; gap: 16px; }
     .footer-links a { font-size: 13px; color: var(--muted-fg); transition: color .2s; cursor: pointer; }
     .footer-links a:hover { color: var(--fg); }
+    .footer-stats {
+      display: flex; align-items: center; gap: 6px;
+      justify-content: center; margin-top: 12px;
+      font-size: 12px; color: var(--muted-fg);
+      font-variant-numeric: tabular-nums;
+    }
+    .footer-stats-sep { opacity: .4; }
 
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .5; } }
@@ -457,9 +464,9 @@
           <a href="https://shetengteng.github.io/tt-shaduni/">Docs</a>
         </div>
       </div>
-      <div style="display:flex;align-items:center;gap:6px;justify-content:center;margin-top:12px;font-size:12px;color:var(--muted-fg);font-variant-numeric:tabular-nums">
+      <div class="footer-stats">
         <span id="busuanzi_container_site_pv">PV <span id="busuanzi_value_site_pv">-</span></span>
-        <span style="opacity:.4">&middot;</span>
+        <span class="footer-stats-sep">&middot;</span>
         <span id="busuanzi_container_site_uv">UV <span id="busuanzi_value_site_uv">-</span></span>
       </div>
     </div>
