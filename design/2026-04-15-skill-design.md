@@ -484,33 +484,34 @@ EMAS云服务 → knowledge/06-cloud-emas.md
 ## 11. 实施计划
 
 ### Phase 1：核心入口
-- [ ] 编写 SKILL.md（≤100 行，双模式 + 规范 + 索引 + 路由表）
-- [ ] 编写 `knowledge/01-overview.md`
+- [x] 编写 SKILL.md（≤100 行，双模式 + 规范 + 索引 + 路由表）
+- [x] 编写 `knowledge/01-overview.md`
+- [x] 生成 AGENTS.md / CLAUDE.md
 
 ### Phase 2：组件知识
-- [ ] 编写 `scripts/gen-component-docs.mjs`（自动提取 props）
-- [ ] 运行脚本生成 6 个组件分类文件
+- [x] 编写 `scripts/gen-component-docs.mjs`（自动提取 props）
+- [x] 运行脚本生成 6 个组件分类文件
 - [ ] 人工补充 events/slots/示例
 
 ### Phase 3：架构与模式
-- [ ] 编写 `knowledge/04-theme.md`
-- [ ] 编写 `knowledge/05-icons.md`
-- [ ] 编写 `knowledge/06-cloud-emas.md`
-- [ ] 编写 `knowledge/07-architecture.md`（10 个模式详解）
-- [ ] 编写 `knowledge/08-patterns.md`（生成工作流 + 字段映射）
-- [ ] 编写 `knowledge/09-faq.md`
+- [x] 编写 `knowledge/04-theme.md`
+- [x] 编写 `knowledge/05-icons.md`
+- [x] 编写 `knowledge/06-cloud-emas.md`
+- [x] 编写 `knowledge/07-architecture.md`（10 个模式详解）
+- [x] 编写 `knowledge/08-patterns.md`（生成工作流 + 字段映射）
+- [x] 编写 `knowledge/09-faq.md`
 
 ### Phase 4：参考范例（从 tt-daka-mp 提取真实代码）
-- [ ] `templates/page/list.vue` ← pages/index/index.vue（添加模式要点注释）
-- [ ] `templates/page/detail.vue` ← pages/project/sub/detail/index.vue
-- [ ] `templates/page/form.vue` ← pages/project/sub/add/index.vue
-- [ ] `templates/api/*.js` ← api/project/*.js（5 个 CRUD 文件）
-- [ ] `templates/component/Card.vue` ← pages/index/components/DakaCard.vue
-- [ ] `templates/store/index.js` ← stores/project.js
-- [ ] `templates/schema/collection.js` ← api/schema.js
-- [ ] `templates/composable/usePageFresh.js` ← composables/usePageFresh.js
-- [ ] `templates/utils/auth.js` ← utils/auth.js
-- [ ] `templates/config/emas.js` ← api/emas.js
+- [x] `templates/page/list.vue` ← pages/index/index.vue（添加模式要点注释）
+- [x] `templates/page/detail.vue` ← pages/project/sub/detail/index.vue
+- [x] `templates/page/form.vue` ← pages/project/sub/add/index.vue
+- [x] `templates/api/*.js` ← api/project/*.js（5 个 CRUD 文件）
+- [x] `templates/component/Card.vue` ← pages/index/components/DakaCard.vue
+- [x] `templates/store/index.js` ← stores/project.js
+- [x] `templates/schema/collection.js` ← api/schema.js
+- [x] `templates/composable/usePageFresh.js` ← composables/usePageFresh.js
+- [x] `templates/utils/auth.js` ← utils/auth.js
+- [x] `templates/config/emas.js` ← api/emas.js
 
 ### Phase 5：验证
 - [ ] Cursor 中加载 Skill，测试查询模式
